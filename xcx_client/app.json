@@ -1,16 +1,23 @@
 {
   "pages":[
-    "pages/speech/index",
-    "pages/translation/index",
-    "pages/room/index",
     "pages/home/index",
+    "pages/room/index",
     "pages/join/index",
     "pages/create/index",
-    "pages/key/index"
+    "pages/key/index",
+    "pages/edit/edit"
   ],
-  "window":{
-    "navigationBarBackgroundColor": "#FFFFFF",
-    "navigationBarTitleText": "同声传译",
-    "navigationBarTextStyle":"black"
+  "window": {
+      "backgroundTextStyle": "light",
+      "backgroundColor": "#FAFAFA",
+      "navigationBarBackgroundColor": "#FAFAFA",
+      "navigationBarTitleText": "面对面翻译",
+      "navigationBarTextStyle": "black"
+  },
+  "plugins": {
+    "WechatSI": {
+      "version": "0.0.6",
+      "provider": "wx069ba97219f66d99"
+    }
   }
 }

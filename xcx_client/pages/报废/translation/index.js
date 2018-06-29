@@ -1,5 +1,3 @@
-import CFG from '../../config'
-let translateUrl = CFG.translateUrl
 Page({
   onReady: function (e) {
   },
