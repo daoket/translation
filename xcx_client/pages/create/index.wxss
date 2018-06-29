@@ -1,0 +1,17 @@
+/* page/home/pages/create/index.wxss */
+.title{
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+.meet-name{
+  margin-left: 10px;
+}
+.lang-box{
+  margin: 20px 0;
+}
+.btn-box{
+  margin-top: 50px;
+}
+
+

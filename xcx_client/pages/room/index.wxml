@@ -1,0 +1,19 @@
+<!--page/home/pages/room/index.wxml-->
+<audio src="{{src}}" id="myAudio" controls loop></audio>
+<button bindtap='playMusic'>播放</button>
+<view class='room-head'>
+  <text>主讲人：iwen</text>
+  <text>当前会议人数： 88人</text>
+</view>
+
+<view class='txt'>
+  Amid ongoing outrage about the Trump administration’s handling of the separation of more than 2,000 immigrant children from their parents, the departments of Homeland Security and Health and Human Services issued guidance Saturday claiming the government is attempting to reunify the families.
+</view>
+
+<view class='btn-gruop'>
+  <button  bindtap="startRecoding" class='start-btn'>start recoding</button>   
+  <view class='stop-box'>
+    <button  bindtap="stopRecoding" class='stop-btn'>stop recoding</button>
+    <button class='copy-btn'>copy</button>
+  </view>
+</view>

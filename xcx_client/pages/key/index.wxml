@@ -1,0 +1,12 @@
+<!--page/home/pages/key/index.wxml-->
+ <view class='qrcode'>
+    <view class='title'>将会议密码分享给他人，共享翻译结果</view>
+    <view>会议密码</view>
+    <view class='key'>sdfjsdfkjs</view>
+    <view>
+      <image class='qrcode-img' src="../../images/qrcode.png" />
+    </view>
+    <navigator url='../room/index' class='btn-box'>
+      <button class='start-btn'>开始同声传译</button>
+    </navigator>
+ </view>

@@ -1,0 +1,3 @@
+<template name="search">
+  <input class="page-search" type="text" placeholder="好好说话"/>
+</template>

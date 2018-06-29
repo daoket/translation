@@ -1,0 +1,16 @@
+{
+  "pages":[
+    "pages/speech/index",
+    "pages/translation/index",
+    "pages/room/index",
+    "pages/home/index",
+    "pages/join/index",
+    "pages/create/index",
+    "pages/key/index"
+  ],
+  "window":{
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "同声传译",
+    "navigationBarTextStyle":"black"
+  }
+}

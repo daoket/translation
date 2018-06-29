@@ -1,0 +1,37 @@
+/* page/home/pages/room/index.wxss */
+.room-head{
+  font-size: 15px;
+  padding: 0 15px 10px; 
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+}
+.txt{
+  margin: 10px 15px;
+}
+
+/* 按钮样式 */
+.btn-gruop{
+  width: 100%;
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+}
+.start-btn{
+   /* display: none;  */
+}
+.stop-box{
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  /* display: none; */
+}
+.copy-btn{
+  width: 50px;
+  height: 50px;
+  margin-left: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

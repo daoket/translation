@@ -1,0 +1,20 @@
+/* page/home/pages/key/index.wxss */
+.title{
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.key{
+  text-decoration: underline;
+  margin: 20px 0;
+}
+.qrcode{
+  text-align: center;
+}
+text{
+  width: 100%;
+  text-align: center;
+}
+.qrcode-img{
+  height: 150px;
+  width: 150px;
+}

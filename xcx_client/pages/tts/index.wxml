@@ -1,0 +1,8 @@
+<!--pages/tts/index.wxml-->
+
+<audio id="ttsAudio" controls loop></audio>
+<view>
+  <input type="text" id='text' bindinput='watchTTSVal' value='{{inputVal}}'/>
+  <button bindtap='tts'>合成</button>
+  <button bindtap='test'>btn</button>
+</view>

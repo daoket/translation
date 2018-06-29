@@ -1,0 +1,6 @@
+<!--pages/translation/index.wxml-->
+<view>
+  <textarea name="" rows="5" cols="" bindinput='watchTranslateVal'></textarea>
+  <button bindtap='translation'>翻译</button>
+  <text>{{ouputVal}}</text>
+</view>

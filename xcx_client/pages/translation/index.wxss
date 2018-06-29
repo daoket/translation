@@ -1,0 +1,11 @@
+/* pages/translation/index.wxss */
+view{
+  margin: 10px;
+}
+textarea{
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+button{
+  margin: 10px 0;
+}

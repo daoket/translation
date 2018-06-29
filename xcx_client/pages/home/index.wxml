@@ -1,0 +1,25 @@
+<import src="../component/search/index.wxml" />
+
+<view class="home">
+
+  <view class='tip1'>
+    <image class='home-tip1' src="../../images/home-tip1.png" />
+    <view>创建同声传译并与他人共享结果</view>
+    <navigator url="../create/index" class="create-btn-box">
+      <button class='create-btn'>创建</button>
+    </navigator>
+  </view>
+
+  <view class='tip2'>
+    <image class='home-tip2' src="../../images/home-tip2.png" />
+    <view>输入会议密码，开始同声传译</view>
+    <view class='key-box'>
+      <input class="key" type="text" placeholder="会议密码"/>
+      <navigator url='../join/index'>
+        <button class='join-btn'>加入</button>
+      </navigator>
+    </view>
+  </view>
+
+
+</view>

@@ -1,0 +1,15 @@
+<!--page/home/pages/create/index.wxml-->
+<view class='title'>输入会议名称并选择主讲人语言</view>
+
+<label class='box meet-box'>
+  <text>会议名称: </text>
+  <input class="meet-name" type="text" placeholder=""/>
+</label>
+
+<label class='box lang-box'>
+  <text class="select-lang">主讲人语言: 英语</text>
+</label>
+
+<navigator  url="../key/index" class='btn-box'>
+  <button class='create-btn'>创建</button>
+</navigator>

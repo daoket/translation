@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>同声传译</title>
+</head>
+
+<body>
+  
+  <input class="content" type="text" value="今天天气"/>
+  <button class='translate-btn'>翻译</button>
+  <p class="result"></p>
+  
+  <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
+  <script type="text/javascript">
+    $('.translate-btn').on('click', function () {
+      var url = 'http://172.31.4.14:9999/translate?content='
+      var content = $('.content').val()
+      if (content.length == 0) {
+        alert('内容不能为空')
+      	return;
+      }
+      console.log(url + content)
+      $.ajax({
+        type: 'get',
+        url: url + content,
+        async: true,
+        success: function (res) {
+          console.log(res)
+          $('.result').text(res)
+        }
+      });
+    })
+  </script>
+</body>
+</html>

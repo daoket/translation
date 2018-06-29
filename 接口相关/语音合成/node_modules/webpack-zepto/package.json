@@ -1,0 +1,9 @@
+{
+  "name": "webpack-zepto",
+  "version": "0.0.1",
+  "description": "Webpack compatible zepto.",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "repository": "https://github.com/RexMorgan/webpack-zepto"
+}

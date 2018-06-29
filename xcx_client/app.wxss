@@ -1,0 +1,31 @@
+/* 公共样式 */
+.box{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 20px;
+}
+.btn-box{
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+input{
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 200px;
+  height: 40px;
+  padding-left: 10px;
+}
+button{
+  width: 200px;
+  margin: 0 auto;
+  padding: 0;
+}
+.btn-box{
+  margin-top: 50px;
+}
+.navigator-hover{
+  background: transparent;
+}
