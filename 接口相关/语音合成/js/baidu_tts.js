@@ -1,3 +1,94 @@
+// 初始化变量
+var audio = null;
+var isEnd = true;
+
+/**
+ * @desc 语音合成
+ * @args text {String} 需要合成的文字
+ */
+function tts(text) {
+  // 调用语音合成接口
+  // 参数含义请参考 https://ai.baidu.com/docs#/TTS-API/41ac79a6
+  audio = btts({
+    tex: text,
+    tok: '24.c31eedd807bdd86586bd165e1e1717c2.2592000.1530954866.282335-9496006',
+    spd: 5,
+    pit: 5,
+    vol: 15,
+    per: 4
+  }, {
+    volume: 0.3,
+    autoDestory: true,
+    timeout: 10000,
+    hidden: false,
+    onInit: function(htmlAudioElement) {
+
+    },
+    onSuccess: function(htmlAudioElement) {
+      audio = htmlAudioElement;
+      if (isEnd) {
+      	play()
+      } else {
+        console.log('请在播放完成后点击')
+      }
+    },
+    onError: function(text) {
+      alert(text)
+    },
+    onTimeout: function() {
+      alert('timeout')
+    }
+  });
+}
+
+// 播放按钮
+function play() {
+  if(audio === null) {
+    alert('请先点击合成')
+  } else {
+    isEnd = false;
+    audio.play();
+  }
+}
+
+// 暂停按钮
+function pause() {
+  if(audio === null) {
+    alert('请先点击合成')
+  } else {
+    audio.pause();
+  }
+}
+
+// 取消按钮
+function cancel() {
+  if(audio === null) {
+    alert('请先点击合成')
+  } else {
+    audio.pause();
+    document.body.removeChild(audio);
+    audio = null;
+  }
+}
+
+// dom加载完毕回调
+function ready(callback) {
+  var doc = document;
+  if(doc.addEventListener) {
+    doc.addEventListener('DOMContentLoaded', function() {
+      callback();
+    }, false);
+  } else if(doc.attachEvent) {
+    doc.attachEvent('onreadystatechange', function() {
+      if(doc.readyState === 'complete') {
+        callback();
+      }
+    });
+  }
+}
+
+
+
 /**
  * 浏览器调用语音合成接口
  * @param {Object} param 百度语音合成接口参数
@@ -62,13 +153,11 @@ function btts(param, options) {
   for(var k in data) {
     fd.push(k + '=' + encodeURIComponent(data[k]));
   }
-  
+
   // 用来处理blob数据
   var frd = new FileReader();
   xhr.responseType = 'blob';
   xhr.send(fd.join('&'));
-  
-  console.log(fd.join('&'))
 
   // 用timeout可以更兼容的处理兼容超时
   var timer = setTimeout(function() {
@@ -91,6 +180,7 @@ function btts(param, options) {
           if(opt.autoDestory) {
             audio.onended = function() {
               document.body.removeChild(audio);
+              isEnd = true
             }
           }
 
@@ -117,5 +207,3 @@ function btts(param, options) {
     return false;
   }
 }
-
-//module.exports = btts

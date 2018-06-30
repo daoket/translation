@@ -4,21 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>JS Bin</title>
+  <style type="text/css">
+  	audio{
+  	  display: none;
+  	}
+  </style>
 </head>
 <body>
-  <audio id="ttsAudio"></audio>
   <div>
-    <input type="text" id="text" value="百度语音合成">
+    <input type="text" id='text' value='百度语音合成'>
     <button class="play">合成</button>
   </div>
   <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
-  <script src="/baidu_tts_cors.1b18bf59.js"></script>
-  <script src="/main_tts.90163e6d.js"></script>
+  <script src="js/baidu_tts.js"></script>
   <script type="text/javascript">
   	$('.play').on('click', function () {
-      var text = $('input').val()
-      var ttsAudio = document.getElementById("ttsAudio")
-      tts(text, ttsAudio)
+      tts($('input').val())
     })
   </script>
 </body>
