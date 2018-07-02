@@ -12,12 +12,13 @@
     <image class='home-tip2' src="../../image/home-tip2.png" />
     <view>输入会议密码，开始同声传译</view>
     <view class='key-box'>
-      <input class="key" type="text" placeholder="会议密码"/>
+      <input class="key" bindinput='watchKey' type="text" placeholder="会议密码"/>
       <navigator url='../join/index'>
-        <button class='join-btn'>加入</button>
+        <button bindtap='joinMeet' class='join-btn'>加入</button>
       </navigator>
     </view>
   </view>
 
+<button class='getUserInfoBtn' wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
 
 </view>

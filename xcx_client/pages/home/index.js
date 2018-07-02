@@ -1,37 +1,39 @@
-var order = ['red', 'yellow', 'blue', 'green', 'red']
+let app = getApp()
 
 Page({
   data: {
-    indicatorDots: true,
-    autoplay: true,
-    interval: 5000,
-    duration: 1000,
-    // 每日优选
-    toView: 'red',
-    scrollTop: 100
+    key: '',
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  upper: function (e) {
-    console.log(e)
-  },
-  lower: function (e) {
-    console.log(e)
-  },
-  scroll: function (e) {
-    console.log(e)
-  },
-  tap: function (e) {
-    for (var i = 0; i < order.length; ++i) {
-      if (order[i] === this.data.toView) {
-        this.setData({
-          toView: order[i + 1]
-        })
-        break
+  onLoad: function () {
+    // 查看是否授权
+    wx.getSetting({
+      success: function (res) {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          wx.getUserInfo({
+            success: function (res) {
+              console.log(res.userInfo)
+            }
+          })
+        }
       }
-    }
-  },
-  tapMove: function (e) {
-    this.setData({
-      scrollTop: this.data.scrollTop + 10
     })
+  },
+  bindGetUserInfo: function (e) {
+    console.log(e.detail.userInfo)
+  },
+  joinMeet() {
+    let key = this.data.key
+    checkkey(key)
+  },
+  watchKey(e) {
+    this.setData({
+      key: e.detail.value
+    })
+  },
+  onReady() {
+    let key = this.data.key
+    
   }
 })

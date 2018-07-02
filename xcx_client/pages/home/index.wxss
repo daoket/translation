@@ -32,3 +32,6 @@
 .join-btn{
   width: 100px;
 }
+.getUserInfoBtn{
+  display: none;
+}

@@ -8,9 +8,6 @@
 
 <label class='box lang-box'>
   <lang tip='主讲人语言'></lang> 
-
 </label>
 
 <button bindtap='creatMeet' class='create-btn'>创建</button>
-<!-- <navigator  url="../key/index" class='btn-box'>
-</navigator> -->

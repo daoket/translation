@@ -1,4 +1,7 @@
-// page/home/pages/create/index.js
+const fly = require('../../utils/wxUtil.js')
+
+let app = getApp();
+
 Page({
   data: {
     lang: ['中文', '英文'],
@@ -16,8 +19,7 @@ Page({
     })
   },
   creatMeet() {
-    let meetName = this.data.meetName
-    console.log(meetName)
+    let meetName = this.data.meetName || '需求评估'
     if (meetName.length == 0) {
       wx.showModal({
         content: '会议名称不能为空',
@@ -30,9 +32,17 @@ Page({
         }
       })
     } else {
-      wx.navigateTo({
-        url: '../key/index'
-      })
+      let params = {
+        meetName: meetName ,
+        openid:app.openid
+      }
+      fly.createkey(params)
+        .then(res => {
+          console.log(res.key)
+          wx.navigateTo({
+              url: '../key/index?key=' + res.key
+          })
+        })
     }
   },
   watchMeetName(e) {
@@ -40,59 +50,4 @@ Page({
       meetName: e.detail.value
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
 })
