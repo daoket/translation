@@ -1,17 +1,17 @@
 <!--pages/join/index.wxml-->
 <view class='room-head'>
   <text>主讲人：</text>
-  <text>语言选择：英文-中文</text>
+   <lang tip='语言选择'></lang> 
 </view>
 
-<view class='source'>
-  Amid ongoing outrage about the Trump administration’s handling of the separation of more than 2,000 immigrant children from their parents, the departments of Homeland Security and Health and Human Services issued guidance Saturday claiming the government is attempting to reunify the families.
-</view>
-<view class='target'>
-在特朗普政府处理将2000多名移民子女与父母分居的处理方面持续愤怒之际，国土安全和卫生与人类服务部门周六发布指导，声称政府正试图使家庭团聚。
-</view>
+<textarea class='source'>
+  {{source}}
+</textarea>
+<textarea class='target'>
+  {{target}}
+</textarea>
 
 <view class='box-group'>
-  <button class='play-btn'>播放</button>
+  <button bindtap='playText' class='play-btn'>播放</button>
   <button class='copy-btn'>复制</button>
 </view>

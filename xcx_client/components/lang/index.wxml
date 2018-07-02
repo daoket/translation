@@ -1,0 +1,7 @@
+<view>
+  <picker bindchange="bindPickerChange" value="{{index}}" range="{{lang}}">
+    <view class="picker select-lang">
+      {{tip}}： {{lang[index]}}
+    </view>
+  </picker>
+</view>

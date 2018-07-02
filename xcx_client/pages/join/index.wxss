@@ -8,9 +8,13 @@
   border-bottom: 1px solid #ddd;
 }
 .source, .target{
-  margin: 10px 15px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  word-break: break-all;
 }
 .source{
+  height: 250px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ddd;
 }

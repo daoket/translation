@@ -1,1 +1,5 @@
-{}
+{
+  "usingComponents": {
+    "lang": "/components/lang/index"
+  }
+}

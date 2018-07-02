@@ -1,9 +1,9 @@
 {
   "pages":[
-    "pages/home/index",
-    "pages/room/index",
     "pages/join/index",
     "pages/create/index",
+    "pages/room/index",
+    "pages/home/index",
     "pages/key/index",
     "pages/edit/edit"
   ],
@@ -16,7 +16,7 @@
   },
   "plugins": {
     "WechatSI": {
-      "version": "0.0.6",
+      "version": "0.0.9",
       "provider": "wx069ba97219f66d99"
     }
   }

@@ -4,7 +4,7 @@
     <view>会议密码</view>
     <view class='key'>sdfjsdfkjs</view>
     <view>
-      <image class='qrcode-img' src="../../images/qrcode.png" />
+      <image class='qrcode-img' src="../../image/qrcode.png" />
     </view>
     <navigator url='../room/index' class='btn-box'>
       <button class='start-btn'>开始同声传译</button>
