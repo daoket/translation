@@ -1,5 +1,4 @@
 const fly = require('../../utils/wxUtil.js')
-
 let app = getApp()
 
 Page({
@@ -8,25 +7,20 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad: function () {
-    // 查看是否授权
-    wx.getSetting({
-      success: function (res) {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success: function (res) {
-              // console.log(res.userInfo)
-            }
-          })
-        }
-      }
+    // 获取token权限，然后获取用户信息
+    fly.wxLogin().then(res => {
+      wx.setStorage({
+        key: 'token',
+        data: res,
+      })
+      fly.wxGetUserInfo()
     })
   },
   bindGetUserInfo: function (e) {
     console.log(e.detail.userInfo)
   },
   joinMeet() {
-    let key = this.data.key || 'gMSNU7Ph'
+    let key = this.data.key
     if (!key) {
       fly.msg('会议密码不能为空')
       return
@@ -39,7 +33,7 @@ Page({
             url: '../join/index?key=' + key
           })
         } else {
-          fly.msg('密码校验失败')
+          fly.msg('没有查询到该密码，请核对后重新输入。')
         }
       })
     // checkkey(key)
@@ -51,6 +45,6 @@ Page({
   },
   onReady() {
     let key = this.data.key
-    
   }
 })
+

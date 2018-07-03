@@ -77,6 +77,81 @@ module.exports = {
       })
     })
   },
+  /**
+   * @desc 保存会议内容
+   */
+  saveTalk: async (ctx, next) => {
+    let data = ctx.request.body
+    console.log(data)
+    let key = data.key
+    let source = data.source
+    let target = data.target
+    return new Promise(resolve => {
+      Key.findOne({
+        key: key
+      }).then(keyInfo => {
+        if (keyInfo) {
+          console.log(keyInfo)
+          console.log(typeof keyInfo)
+          if (source) {
+            keyInfo.source = source
+          }
+          if (target) {
+            keyInfo.target = target
+          }
+          return keyInfo.save()
+        }
+      }).then(newkeyInfo => {
+        if (newkeyInfo) {
+          resData.result = {
+            "isSave": true // 会话保存成功
+          }
+          ctx.body = resData
+          resolve(next())
+        } else {
+           resData.result = {
+             "isSave": false //会话保存失败
+           }
+           ctx.body = resData
+           resolve(next())
+        }
+      })
+    })
+  },
+  /**
+   * @desc 获取会议记录
+   */
+  getTalk: async (ctx, next) => {
+    let meetKey = ctx.request.body.key
+    if (meetKey == '') {
+      resData.result = {
+        "isGet": false,
+        "message": "秘钥不能为空"
+      }
+      ctx.body = resData
+    }
+    return new Promise(resolve => {
+      Key.findOne({
+        key: meetKey
+      }).then(keyInfo => {
+        if (keyInfo) {
+          resData.result = {
+            "isGet": true,
+            "source": keyInfo.source,
+            "target": keyInfo.target
+          }
+          ctx.body = resData
+          resolve(next())
+        } else {
+          resData.result = {
+            "isGet": false,
+          }
+          ctx.body = resData
+          resolve(next())
+        }
+      })
+    })
+  },
 }
 
 /**

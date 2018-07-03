@@ -18,6 +18,7 @@
     "koa-session": "^5.8.1",
     "koa-static": "^5.0.0",
     "koa-swig": "^2.2.1",
-    "mongoose": "^5.1.7"
+    "mongoose": "^5.1.7",
+    "request": "^2.87.0"
   }
 }

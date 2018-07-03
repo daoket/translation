@@ -10,4 +10,4 @@
   <lang tip='主讲人语言'></lang> 
 </label>
 
-<button bindtap='creatMeet' class='create-btn'>创建</button>
+<button bindchangeLang='changeLang' bindtap='creatMeet' class='create-btn'>创建</button>

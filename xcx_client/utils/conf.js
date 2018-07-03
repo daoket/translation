@@ -1,8 +1,18 @@
+let dev = 'development'
+let baseUrl = ''
+if (dev) {
+  baseUrl = 'http://192.168.36.108:1234/'
+} else {
+  baseUrl = 'http://wtniu.xyz:3006/'
+}
+
 let CFG = {
-  getwxinfo: 'http://localhost:1234/getwxinfo',
-  createkey: 'http://localhost:1234/createkey',
-  savekey: 'http://localhost:1234/savekey',
-  checkkey: 'http://localhost:1234/checkkey',
+  getwxinfo: baseUrl + 'getwxinfo',
+  createkey: baseUrl + 'createkey',
+  savekey: baseUrl + 'savekey',
+  checkkey: baseUrl + 'checkkey',
+  saveTalk: baseUrl + 'saveTalk',
+  getTalk: baseUrl + 'getTalk',
 }
 let language = [
   {

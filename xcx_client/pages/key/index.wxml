@@ -2,11 +2,12 @@
  <view class='qrcode'>
     <view class='title'>将会议密码分享给他人，共享翻译结果</view>
     <view>会议密码</view>
-    <view class='key'>{{key}}</view>
-    <view>
-      <image class='qrcode-img' src="../../image/qrcode.png" />
+    <view class='ke-box'>
+      <text selectable='true' class='key'>{{key}}</text>
     </view>
-    <navigator url='../room/index' class='btn-box'>
-      <button class='start-btn'>开始同声传译</button>
-    </navigator>
+    <view>
+      <image bindtap="previewImage" class='qrcode-img' src="{{imgalist}}" />
+    </view>
+
+    <button bindtap='startMeet' class='start-btn'>开始同声传译</button>
  </view>

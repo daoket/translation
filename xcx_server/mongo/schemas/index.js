@@ -4,4 +4,6 @@ const mongoose = require("mongoose")
 module.exports = new mongoose.Schema({
   key: String,
   openid: String,
+  source: String,
+  target: String
 })

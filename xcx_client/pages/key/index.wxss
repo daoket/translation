@@ -4,6 +4,7 @@
   margin-bottom: 20px;
 }
 .key{
+  display: inline-block;
   text-decoration: underline;
   margin: 20px 0;
 }
@@ -17,4 +18,12 @@ text{
 .qrcode-img{
   height: 150px;
   width: 150px;
+}
+.start-btn{
+  margin: 50px auto;
+}
+.tip{
+  display: inline-block;
+  font-size: 13px;
+  margin-top: 20px;
 }

@@ -4,21 +4,6 @@ const fly = require('./utils/wxUtil.js')
 
 App({
   onLaunch: function () {
-    let app = this
-    wx.login({
-      success: function (res) {
-        if (res.code) {
-          fly.getwxinfo({ code: res.code})
-            .then(res => {
-              // console.log(res)
-              app.session_key = JSON.parse(res).session_key
-              app.openid = JSON.parse(res).openid
-            })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      }
-    })
     wx.getStorage({
       key: 'history',
       success: (res) => {

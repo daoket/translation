@@ -4,19 +4,14 @@ let app = getApp();
 
 Page({
   data: {
-    lang: ['中文', '英文'],
-    langArray: [
-      {id: 0,name: '中文'},
-      {id: 1,name: '英文'}
-    ],
-    index: 0,
     meetName: ''
   },
-  bindPickerChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
-    this.setData({
-      index: e.detail.value
-    })
+  changeLang(e) {
+    if (e.detail.lang === '0') {  // 0中文  1英文
+      console.log('选择了中文')
+    } else {
+      console.log('选择了英文')
+    }
   },
   creatMeet() {
     let meetName = this.data.meetName
@@ -31,7 +26,7 @@ Page({
         .then(res => {
           console.log(res.key)
           wx.navigateTo({
-              url: '../key/index?key=' + res.key
+            url: '../key/index?key=' + res.key + '&meetName=' + meetName
           })
         })
     }

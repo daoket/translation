@@ -17,8 +17,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/face2face", error => {
     console.log("数据库连接失败：" + error)
   } else {
     console.log("------数据库连接成功！------")
-    app.listen(1234, () => {
-      console.log('server is running at http://localhost:1234')
-    })
+    let server = app.listen(1234, () => {
+      console.log('Server is 🏃‍  at: http://127.0.0.1:%s', server.address().port);
+    });
   }
 });

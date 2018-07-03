@@ -24,10 +24,10 @@
   height: 120px;
 }
 .key-box{
-  margin: 10px 0;
+  margin: 10px;
 }
 .key{
-  margin-right: 10px;
+   margin-right: 10px; 
 }
 .join-btn{
   width: 100px;

@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    meetKey: '',
     source: '',
     target: '',
   },
@@ -31,10 +32,15 @@ Page({
   },
   playText() {
     let self = this
+    let content = self.data.source
+    if (content === '') {
+      fly.msg('当前还没有需要播放的文字')
+      return
+    }
     plugin.textToSpeech({
       lang: "zh_CN",
       tts: true,
-      content: self.data.source,
+      content: content,
       success: function (res) {
         console.log("succ tts", res.filename)
         // this.playAudio(res.filename)
@@ -48,6 +54,9 @@ Page({
     })
   },
   playAudio(src) {
+    if (src == '') {
+      fly.msg('音频链接无效')
+    }
     const innerAudioContext = wx.createInnerAudioContext()
     innerAudioContext.autoplay = true
     innerAudioContext.src = src
@@ -64,30 +73,35 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    this.setData({
+      meetKey: options.key || ''
+    })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    wx.hideShareMenu()  // 隐藏分享
     let self = this
-    wx.getStorage({
-      key: 'source',
-      success: function (res) {
-        self.setData({
-          source: res.data
-        })
-      }
-    })
-    wx.getStorage({
-      key: 'target',
-      success: function (res) {
-        self.setData({
-          target: res.data
-        })
-      }
-    })
+
+    let getTalkParams = {
+      key: self.data.meetKey,  
+      // key: 'CIp7njic',  
+    }
+    fly.getTalk(getTalkParams)
+      .then(res => {
+        // console.log(res)
+        if(res.isGet) {
+          self.setData({
+            source: res.source,
+            target: res.target
+          })
+        } else {
+          fly.msg('会议密码错误')
+          return
+        }
+      })
   },
 
   /**

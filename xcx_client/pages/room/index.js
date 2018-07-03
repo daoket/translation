@@ -12,6 +12,7 @@ const fly = require('../../utils/wxUtil.js')
 // 获取**全局唯一**的语音识别管理器**recordRecoManager**
 const manager = plugin.getRecordRecognitionManager()
 
+let meetKey = ''
 Page({
   data: {
     dialogList: [],
@@ -90,7 +91,15 @@ Page({
       bottomButtonDisabled: true,
     })
   },
-
+  onReady() {
+    wx.hideShareMenu()  // 隐藏分享
+    wx.getStorage({
+      key: 'key',
+      success: function (res) {
+        meetKey = res.data
+      }
+    })
+  },
 
   /**
    * 翻译
@@ -100,10 +109,22 @@ Page({
     let lto = item.lto || 'en_US'
 
    // --------------存储原文---------------
-    wx.setStorage({
-      key: 'source',
-      data: item.text
-    })
+    // wx.setStorage({
+    //   key: 'source',
+    //   data: item.text
+    // })
+    let saveTalkParams = {
+      key: meetKey,
+      source: item.text
+    }
+    fly.saveTalk(saveTalkParams)
+      .then(res => {
+        if (res.isSave) {
+          console.log('保存会议记录成功')
+        } else {
+          console.log('保存会议记录失败')
+        }
+      })
 
     plugin.translate({
       lfrom: lfrom,
@@ -132,10 +153,22 @@ Page({
             })
 
            // --------------存储译文---------------
-            wx.setStorage({
-              key: 'target',
-              data: resTrans.result 
-            })
+            // wx.setStorage({
+            //   key: 'target',
+            //   data: resTrans.result 
+            // })
+            let saveTalkParams = {
+              key: meetKey,
+              target: resTrans.result
+            }
+            fly.saveTalk(saveTalkParams)
+              .then(res => {
+                if (res.isSave) {
+                  console.log('保存会议记录成功')
+                } else {
+                  console.log('保存会议记录失败')
+                }
+              })
 
             tmpDialogList[index] = tmpTranslate
 

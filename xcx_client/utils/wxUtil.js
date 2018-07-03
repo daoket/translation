@@ -1,16 +1,9 @@
 const CFG = require('./conf.js').CFG
 
-const msg = (title) => {
-  wx.showToast({
-    title: title,
-    icon: 'none',
-    duration: 2000
-  })
-}
-
-module.exports = {
-  // 提示框
+const fly = {
   msg: msg,
+  wxLogin: wxLogin,
+  wxGetUserInfo: wxGetUserInfo,
   /**
    * @desc 获取用户信息
    */
@@ -43,7 +36,24 @@ module.exports = {
       wxAjax(CFG.checkkey, params, resolve)
     })
   },
+  /**
+   * @desc 保存最新的会议记录
+   */
+  saveTalk: (params = {}) => {
+    return new Promise(resolve => {
+      wxAjax(CFG.saveTalk, params, resolve)
+    })
+  },
+  /**
+   * @desc 获取最新的会议记录
+   */
+  getTalk: (params = {}) => {
+    return new Promise(resolve => {
+      wxAjax(CFG.getTalk, params, resolve)
+    })
+  },
 }
+module.exports = fly
 
 /**
 * @desc 小程序请求封装
@@ -73,4 +83,57 @@ function wxAjax(url, data, resolve) {
         msg('请求出错：', err)
       }
     })
+}
+
+/**
+ * @desc 提示框
+ */
+function msg(title) {
+  wx.showToast({
+    title: title,
+    icon: 'none',
+    duration: 2000
+  })
+}
+
+/**
+* @desc 微信登录
+*/
+function wxLogin() {
+  return new Promise(resolve => {
+    wx.login({
+      success: function (res) {
+        if (res.code) {
+          fly.getwxinfo({ code: res.code })
+            .then(res => {
+              // console.log(res)
+              let session_key = JSON.parse(res).session_key
+              let openid = JSON.parse(res).openid
+              resolve(openid)
+            })
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    })
+  })
+}
+/**
+* @desc 获取用户信息
+*/
+function wxGetUserInfo() {
+  return new Promise(resolve => {
+    wx.getSetting({
+      success: function (res) {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          wx.getUserInfo({
+            success: function (res) {
+              console.log(res.userInfo)
+            }
+          })
+        }
+      }
+    })
+  })
 }

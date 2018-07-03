@@ -1,10 +1,10 @@
 {
   "pages":[
+    "pages/key/index",
     "pages/home/index",
     "pages/room/index",
     "pages/join/index",
     "pages/create/index",
-    "pages/key/index",
     "pages/edit/edit"
   ],
   "window": {
