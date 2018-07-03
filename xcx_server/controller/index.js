@@ -55,19 +55,27 @@ module.exports = {
   * @desc 校验会议密码是否正确
   */
   checkkey: async (ctx, next) => {
-    let data = ctx.request.body
-    if (true) {
-      resData.result = {
-        "message": "密码校验成功"
-      }
-      ctx.body = resData
-    } else {
-      resData.errorcode = '006000'
-      resData.result = {
-        "message": "密码校验失败"
-      }
-      ctx.body = resData
-    }
+    let key = ctx.request.body.key
+    // 查询是否有该密码
+    return new Promise(resolve => {
+      Key.findOne({
+        key: key
+      }).then((keyInfo) => {
+        if (keyInfo) {
+          resData.result = {
+            "ispass": true //密码校验成功
+          }
+          ctx.body = resData
+          resolve(next())
+        } else {
+          resData.result = {
+            "ispass": false //密码校验失败
+          }
+          ctx.body = resData
+          resolve(next())
+        }
+      })
+    })
   },
 }
 

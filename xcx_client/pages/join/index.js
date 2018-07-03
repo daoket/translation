@@ -1,14 +1,33 @@
 // pages/join/index.js
 const plugin = requirePlugin("WechatSI")
+const fly = require('../../utils/wxUtil.js')
+let app = getApp()
 
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    source: 'Amid ongoing outrage about the Trump administration’s handling of the separation of more than 2,000 immigrant children from their parents, the departments of Homeland Security and Health and Human Services issued guidance Saturday claiming the government is attempting to reunify the families.',
-    target: '在特朗普政府处理将2000多名移民子女与父母分居的处理方面持续愤怒之际，国土安全和卫生与人类服务部门周六发布指导，声称政府正试图使家庭团聚。'
+    source: '',
+    target: '',
+  },
+  changeLang(e) {
+    let cn = this.data.source
+    let en = this.data.target
+    if (e.detail.lang === '0') {  // 0中文  1英文
+      this.setData({
+        source: cn,
+        target: en
+      })
+    } else {
+      this.setData({
+        source: en,
+        target: cn
+      })
+    }
+  },
+  copyText() {
+    
   },
   playText() {
     let self = this
@@ -52,7 +71,23 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+    let self = this
+    wx.getStorage({
+      key: 'source',
+      success: function (res) {
+        self.setData({
+          source: res.data
+        })
+      }
+    })
+    wx.getStorage({
+      key: 'target',
+      success: function (res) {
+        self.setData({
+          target: res.data
+        })
+      }
+    })
   },
 
   /**

@@ -1,3 +1,7 @@
+let app = getApp()
+
+let lang = 'cn'
+
 Component({
   properties: {
     tip: {         
@@ -19,6 +23,7 @@ Component({
       this.setData({
         index: e.detail.value
       })
+      this.triggerEvent('changeLang', { lang: e.detail.value })
     },
   }
 })

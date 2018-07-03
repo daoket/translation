@@ -10,7 +10,7 @@ App({
         if (res.code) {
           fly.getwxinfo({ code: res.code})
             .then(res => {
-              console.log(res)
+              // console.log(res)
               app.session_key = JSON.parse(res).session_key
               app.openid = JSON.parse(res).openid
             })

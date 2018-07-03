@@ -30,4 +30,6 @@
       bindrecordstart="streamRecord"
       bindrecordend="streamRecordEnd"></bottom-button>
   </view>
+  
 </view>
+

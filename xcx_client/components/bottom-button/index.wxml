@@ -12,6 +12,10 @@
         <view class="button-label">{{button.msg}}</view>
       </view>
 
+  <!-- <navigator url='../join/index'>
+    <button class='join'>进入房间</button>
+  </navigator>  -->
+
     </view>
   </view>
 </view>

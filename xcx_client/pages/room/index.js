@@ -7,27 +7,14 @@ const plugin = requirePlugin("WechatSI")
 
 import { language } from '../../utils/conf.js'
 
+const fly = require('../../utils/wxUtil.js')
 
 // 获取**全局唯一**的语音识别管理器**recordRecoManager**
 const manager = plugin.getRecordRecognitionManager()
 
-
 Page({
   data: {
-    dialogList: [
-      // {
-      //   // 当前语音输入内容
-      //   create: '04/27 15:37',
-      //   lfrom: 'zh_CN',
-      //   lto: 'en_US',
-      //   text: '这是测试这是测试这是测试这是测试',
-      //   translateText: 'this is test.this is test.this is test.this is test.',
-      //   voicePath: '',
-      //   translateVoicePath: '',
-      //   autoPlay: false, // 自动播放背景音乐
-      //   id: 0,
-      // },
-    ],
+    dialogList: [],
     scroll_top: 10000, // 竖向滚动条位置
 
     bottomButtonDisabled: false, // 底部按钮disabled
@@ -87,7 +74,7 @@ Page({
    */
   streamRecordEnd: function(e) {
 
-    // console.log("streamRecordEnd" ,e)
+    console.log("streamRecordEnd" ,e)
     let detail = e.detail || {}  // 自定义组件触发事件时提供的detail对象
     let buttonItem = detail.buttonItem || {}
 
@@ -111,6 +98,12 @@ Page({
   translateText: function(item, index) {
     let lfrom =  item.lfrom || 'zh_CN'
     let lto = item.lto || 'en_US'
+
+   // --------------存储原文---------------
+    wx.setStorage({
+      key: 'source',
+      data: item.text
+    })
 
     plugin.translate({
       lfrom: lfrom,
@@ -136,6 +129,12 @@ Page({
               translateText: resTrans.result,
               translateVoicePath: resTrans.filename || "",
               translateVoiceExpiredTime: resTrans.expired_time || 0
+            })
+
+           // --------------存储译文---------------
+            wx.setStorage({
+              key: 'target',
+              data: resTrans.result 
             })
 
             tmpDialogList[index] = tmpTranslate

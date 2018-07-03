@@ -19,18 +19,9 @@ Page({
     })
   },
   creatMeet() {
-    let meetName = this.data.meetName || '需求评估'
+    let meetName = this.data.meetName
     if (meetName.length == 0) {
-      wx.showModal({
-        content: '会议名称不能为空',
-        success: function (res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
-        }
-      })
+      fly.msg('会议名称不能为空')
     } else {
       let params = {
         meetName: meetName ,

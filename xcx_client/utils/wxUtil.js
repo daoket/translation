@@ -1,6 +1,16 @@
 const CFG = require('./conf.js').CFG
 
+const msg = (title) => {
+  wx.showToast({
+    title: title,
+    icon: 'none',
+    duration: 2000
+  })
+}
+
 module.exports = {
+  // 提示框
+  msg: msg,
   /**
    * @desc 获取用户信息
    */
@@ -56,11 +66,11 @@ function wxAjax(url, data, resolve) {
         if (_data.errorcode === '000000') {
           resolve(_data.result)
         } else {
-          console.log('加载异常，请稍后重试');
+          msg('加载异常，请稍后重试')
         }
       },
       fail: (err) => {
-        console.log('请求出错：', err)
+        msg('请求出错：', err)
       }
     })
 }

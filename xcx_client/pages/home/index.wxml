@@ -13,9 +13,9 @@
     <view>输入会议密码，开始同声传译</view>
     <view class='key-box'>
       <input class="key" bindinput='watchKey' type="text" placeholder="会议密码"/>
-      <navigator url='../join/index'>
-        <button bindtap='joinMeet' class='join-btn'>加入</button>
-      </navigator>
+      <!-- <navigator url='../join/index'>
+      </navigator> -->
+      <button bindtap='joinMeet' class='join-btn'>加入</button>
     </view>
   </view>
 

@@ -1,7 +1,7 @@
 <!--pages/join/index.wxml-->
 <view class='room-head'>
   <text>主讲人：</text>
-   <lang tip='语言选择'></lang> 
+   <lang bindchangeLang='changeLang' tip='语言选择'></lang> 
 </view>
 
 <textarea class='source'>
@@ -13,5 +13,5 @@
 
 <view class='box-group'>
   <button bindtap='playText' class='play-btn'>播放</button>
-  <button class='copy-btn'>复制</button>
+  <button bindtap='copyText' class='copy-btn'>复制</button>
 </view>
