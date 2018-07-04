@@ -1,7 +1,9 @@
 <view class="home">
 
+  <text>{{source}}</text>
+
   <view class='tip1'>
-    <image class='home-tip1' src="../../image/home-tip1.png" />
+    <image bindtap='testws' class='home-tip1' src="../../image/home-tip1.png" />
     <view>创建同声传译并与他人共享结果</view>
     <navigator url="../create/index" class="create-btn-box">
       <button class='create-btn'>创建</button>

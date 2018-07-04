@@ -14,6 +14,9 @@ module.exports = {
   index: async(ctx, next) => {
     await ctx.render("main/index", {title: "欢迎您"})
   },
+  /**
+   * @desc 获取微信用户的openID
+   */
   getwxinfo: async (ctx, next) => {
     return new Promise(resolve => {
       let code = ctx.request.body.code
@@ -82,7 +85,6 @@ module.exports = {
    */
   saveTalk: async (ctx, next) => {
     let data = ctx.request.body
-    console.log(data)
     let key = data.key
     let source = data.source
     let target = data.target
@@ -91,8 +93,6 @@ module.exports = {
         key: key
       }).then(keyInfo => {
         if (keyInfo) {
-          console.log(keyInfo)
-          console.log(typeof keyInfo)
           if (source) {
             keyInfo.source = source
           }
@@ -145,6 +145,31 @@ module.exports = {
         } else {
           resData.result = {
             "isGet": false,
+          }
+          ctx.body = resData
+          resolve(next())
+        }
+      })
+    })
+  },
+  /**
+   * @desc 根据秘钥获取openID
+   */
+  getKeyOpenID: async (ctx, next) => {
+    let key = ctx.request.body.key
+    return new Promise(resolve => {
+      Key.findOne({
+        key: key
+      }).then(keyInfo => {
+        if (keyInfo && keyInfo.openid) {
+          resData.result = {
+            "openid": keyInfo.openid
+          }
+          ctx.body = resData
+          resolve(next())
+        } else {
+          resData.result = {
+            "openid": '',
           }
           ctx.body = resData
           resolve(next())

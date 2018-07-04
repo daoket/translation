@@ -1,7 +1,6 @@
-<!--pages/join/index.wxml-->
 <view class='room-head'>
   <text>主讲人：</text>
-   <lang bindchangeLang='changeLang' tip='语言选择'></lang> 
+   <lang bindchangeLang='changeLang' index='{{lang}}' tip='选择播放语言'></lang> 
 </view>
 
 <textarea class='source'>

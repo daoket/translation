@@ -13,36 +13,36 @@ const fly = require('../../utils/wxUtil.js')
 const manager = plugin.getRecordRecognitionManager()
 
 let meetKey = ''
+
 Page({
   data: {
     dialogList: [],
     scroll_top: 10000, // 竖向滚动条位置
-
     bottomButtonDisabled: false, // 底部按钮disabled
-
     tips_language: language[0], // 目前只有中文
-
-    initTranslate: {
-      // 为空时的卡片内容
+    initTranslate: {  // 为空时的卡片内容
       create: '04/27 15:37',
       text: '等待说话',
     },
-
-    currentTranslate: {
-      // 当前语音输入内容
+    currentTranslate: {  // 当前语音输入内容
       create: '04/27 15:37',
       text: '等待说话',
     },
     recording: false,  // 正在录音
     recordStatus: 0,   // 状态： 0 - 录音中 1- 翻译中 2 - 翻译完成/二次翻译
-
     toView: 'fake',  // 滚动位置
     lastId: -1,    // dialogList 最后一个item的 id
     currentTranslateVoice: '', // 当前播放语音路径
-
   },
-
-
+  onReady() {
+    // wx.hideShareMenu()  // 隐藏分享
+    wx.getStorage({
+      key: 'key',
+      success: function (res) {
+        meetKey = res.data
+      }
+    })
+  },
   /**
    * 按住按钮开始语音识别
    */
@@ -53,7 +53,6 @@ Page({
     manager.start({
       lang: buttonItem.lang,
     })
-
     this.setData({
       recordStatus: 0,
       recording: true,
@@ -66,128 +65,67 @@ Page({
       },
     })
     this.scrollToNew();
-
   },
-
-
   /**
    * 松开按钮结束语音识别
    */
   streamRecordEnd: function(e) {
-
     console.log("streamRecordEnd" ,e)
     let detail = e.detail || {}  // 自定义组件触发事件时提供的detail对象
     let buttonItem = detail.buttonItem || {}
-
     // 防止重复触发stop函数
     if(!this.data.recording || this.data.recordStatus != 0) {
       console.warn("has finished!")
       return
     }
-
     manager.stop()
-
     this.setData({
       bottomButtonDisabled: true,
     })
   },
-  onReady() {
-    wx.hideShareMenu()  // 隐藏分享
-    wx.getStorage({
-      key: 'key',
-      success: function (res) {
-        meetKey = res.data
-      }
-    })
-  },
-
   /**
    * 翻译
    */
   translateText: function(item, index) {
     let lfrom =  item.lfrom || 'zh_CN'
     let lto = item.lto || 'en_US'
-
-   // --------------存储原文---------------
-    // wx.setStorage({
-    //   key: 'source',
-    //   data: item.text
-    // })
-    let saveTalkParams = {
-      key: meetKey,
-      source: item.text
-    }
-    fly.saveTalk(saveTalkParams)
-      .then(res => {
-        if (res.isSave) {
-          console.log('保存会议记录成功')
-        } else {
-          console.log('保存会议记录失败')
-        }
-      })
-
     plugin.translate({
       lfrom: lfrom,
       lto: lto,
       content: item.text,
       tts: true,
       success: (resTrans)=>{
-
         let passRetcode = [
           0, // 翻译合成成功
           -10006, // 翻译成功，合成失败
           -10007, // 翻译成功，传入了不支持的语音合成语言
           -10008, // 翻译成功，语音合成达到频率限制
         ]
-
         if(passRetcode.indexOf(resTrans.retcode) >= 0 ) {
           let tmpDialogList = this.data.dialogList.slice(0)
-
           if(!isNaN(index)) {
-
             let tmpTranslate = Object.assign({}, item, {
               autoPlay: true, // 自动播放背景音乐
               translateText: resTrans.result,
               translateVoicePath: resTrans.filename || "",
               translateVoiceExpiredTime: resTrans.expired_time || 0
             })
-
-           // --------------存储译文---------------
-            // wx.setStorage({
-            //   key: 'target',
-            //   data: resTrans.result 
-            // })
-            let saveTalkParams = {
-              key: meetKey,
-              target: resTrans.result
-            }
-            fly.saveTalk(saveTalkParams)
-              .then(res => {
-                if (res.isSave) {
-                  console.log('保存会议记录成功')
-                } else {
-                  console.log('保存会议记录失败')
-                }
-              })
-
+            // ----------------------------存储原文和译文--------------------------
+            saveTalkHistory(meetKey, item.text, resTrans.result) // 保存原文和译文
+            fly.sendWebSocketMessage(item.text) // 将原文发送到websocket服务器
             tmpDialogList[index] = tmpTranslate
-
-
             this.setData({
               dialogList: tmpDialogList,
               bottomButtonDisabled: false,
               recording: false,
             })
-
             this.scrollToNew();
-
           } else {
             console.error("index error", resTrans, item)
           }
         } else {
           console.warn("翻译失败", resTrans, item)
         }
-
       },
       fail: function(resTrans) {
         console.error("调用失败",resTrans, item)
@@ -203,10 +141,7 @@ Page({
         wx.hideLoading()
       }
     })
-
   },
-
-
   /**
    * 修改文本信息之后触发翻译操作
    */
@@ -217,9 +152,6 @@ Page({
     let index = detail.index
 
     this.translateText(item, index)
-
-
-
   },
 
   /**
@@ -277,7 +209,6 @@ Page({
       initTranslate: initTranslateNew
     })
   },
-
 
   /**
    * 删除卡片
@@ -478,3 +409,28 @@ Page({
     this.setHistory()
   },
 })
+
+// -----------------------佛祖镇楼  BUG辟易------------------
+
+// saveTalkHistory('Xwxrhj54','今天天气', 'today')
+/**
+  * 保存原文和译文
+  * @args {string} key 会议密码
+  * @args {string} source 原文
+  * @args {string} target 译文
+  */
+function saveTalkHistory(key, source, target) {
+  // 保存数据库
+  let saveTalkParams = {
+    key: key,
+    source: source,
+    target: target,
+  }
+  fly.saveTalk(saveTalkParams).then(res => {
+    if (res.isSave) {
+      console.log('保存会议记录成功')
+    } else {
+      console.log('保存会议记录失败')
+    }
+  })
+}

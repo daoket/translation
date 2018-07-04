@@ -4,13 +4,20 @@ let app = getApp()
 Page({
   data: {
     key: '',
+    source: '',
     canIUse: wx.canIUse('button.open-type.getUserInfo')
+  },
+  onReady() {
+    // fly.getWebSocketMessage(this)
+  },
+  testws() {
+    fly.sendWebSocketMessage('这是首页测试信息')
   },
   onLoad: function () {
     // 获取token权限，然后获取用户信息
     fly.wxLogin().then(res => {
       wx.setStorage({
-        key: 'token',
+        key: 'openid',
         data: res,
       })
       fly.wxGetUserInfo()
@@ -20,31 +27,44 @@ Page({
     console.log(e.detail.userInfo)
   },
   joinMeet() {
-    let key = this.data.key
-    if (!key) {
-      fly.msg('会议密码不能为空')
-      return
-    }
-    fly.checkkey({ key: key})
-      .then(res => {
-        if (res.ispass) {
-          console.log('密码校验成功')
-          wx.navigateTo({
-            url: '../join/index?key=' + key
-          })
-        } else {
-          fly.msg('没有查询到该密码，请核对后重新输入。')
-        }
-      })
-    // checkkey(key)
+    fly.joinMeet(this.data.key)
   },
   watchKey(e) {
     this.setData({
       key: e.detail.value
     })
   },
-  onReady() {
-    let key = this.data.key
-  }
 })
+
+// -----------------------佛祖镇楼  BUG辟易------------------
+
+/**
+ * 接收websocket推送
+ * @args {string} url WebSocket接口地址
+ * @args {object} self 上下文
+ */
+function getWebSocketMessage(url, self) {
+  return new Promise(resolve => {
+    wx.connectSocket({
+      url: url,
+      method: "POST",
+      success: res => {
+        console.log(res)
+      }
+    })
+    wx.onSocketMessage(function (res) {
+      console.log('收到服务器内容：' + res.data)
+      self.setData({
+        source: res.data,
+      })
+      resolve(res.data)
+    })
+    wx.onSocketClose(function (res) {
+      console.log('WebSocket 已关闭！')
+    })
+    wx.onSocketError(function (res) {
+      console.log('WebSocket连接打开失败，请检查！')
+    })
+  })
+}
 

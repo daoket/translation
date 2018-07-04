@@ -7,12 +7,14 @@ if (dev) {
 }
 
 let CFG = {
+  wssurl: 'ws://192.168.36.108:1234/ws/talk',
   getwxinfo: baseUrl + 'getwxinfo',
   createkey: baseUrl + 'createkey',
   savekey: baseUrl + 'savekey',
   checkkey: baseUrl + 'checkkey',
   saveTalk: baseUrl + 'saveTalk',
   getTalk: baseUrl + 'getTalk',
+  getKeyOpenID: baseUrl + 'getKeyOpenID',
 }
 let language = [
   {

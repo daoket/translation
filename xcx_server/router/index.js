@@ -10,6 +10,8 @@ module.exports = (app) => {
   router.post('/checkkey', controller.checkkey) // 检测会议密码是否正确
   router.post('/saveTalk', controller.saveTalk) // 保存最新一条会议记录
   router.post('/getTalk', controller.getTalk) // 获取最新一条会议记录
+  router.post('/getKeyOpenID', controller.getKeyOpenID) // 根据秘钥获取openID
+
 
   app.use(router.routes())
     .use(router.allowedMethods())
