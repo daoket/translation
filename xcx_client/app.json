@@ -1,9 +1,9 @@
 {
   "pages":[
     "pages/home/index",
-    "pages/key/index",
-    "pages/room/index",
     "pages/join/index",
+    "pages/room/index",
+    "pages/key/index",
     "pages/create/index",
     "pages/edit/edit"
   ],

@@ -1,6 +1,5 @@
 <!--page/home/pages/create/index.wxml-->
 <view class='title'>输入会议名称并选择主讲人语言</view>
-<button bindtap='testws'>测试ws</button>
 <label class='box meet-box'>
   <text>会议名称: </text>
   <input class="meet-name" bindinput='watchMeetName' maxlength="10"/>

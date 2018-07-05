@@ -6,9 +6,6 @@ Page({
   data: {
     meetName: ''
   },
-  testws() {
-    fly.sendWebSocketMessage('这是首页测试信息')
-  },
   changeLang(e) {
     if (e.detail.lang === '0') {  // 0中文  1英文
       fly.msg('选择了中文')

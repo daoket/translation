@@ -42,6 +42,7 @@ Page({
         meetKey = res.data
       }
     })
+    fly.createWebSocket() // 创建一个ws实例
   },
   /**
    * 按住按钮开始语音识别
@@ -112,7 +113,7 @@ Page({
             })
             // ----------------------------存储原文和译文--------------------------
             saveTalkHistory(meetKey, item.text, resTrans.result) // 保存原文和译文
-            fly.sendWebSocketMessage(item.text) // 将原文发送到websocket服务器
+            fly.sendWebSocketMessage(item.text, resTrans.result) // 将原文和译文发送到websocket服务器
             tmpDialogList[index] = tmpTranslate
             this.setData({
               dialogList: tmpDialogList,

@@ -3,15 +3,12 @@ let app = getApp()
 
 Page({
   data: {
-    key: '',
+    key: 'tY/U2qlI',
     source: '',
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   onReady() {
     // fly.getWebSocketMessage(this)
-  },
-  testws() {
-    fly.sendWebSocketMessage('这是首页测试信息')
   },
   onLoad: function () {
     // 获取token权限，然后获取用户信息

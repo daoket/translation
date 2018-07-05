@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "server": "nodemon app.js",
     "mongo": "docker run -p 27017:27017 -td mongo",
     "execmongo": "docker exec -it 95a6cde75236 bash",
     "commit": "docker commit bb427b3730c5 mongo"

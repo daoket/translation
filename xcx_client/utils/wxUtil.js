@@ -100,26 +100,59 @@ const fly = {
       })
     }
   },
+  // 创建websocket实例
+  createWebSocket: createWebSocket,
   /**
    * 发送webSocket信息
-   * @args {string} message 发送的信息
+   * @args {string} source 原文
+   * @args {string} target 译文
    */
-  sendWebSocketMessage: (message) => {
-    if (message == '') {
+  sendWebSocketMessage: (source, target) => {
+    if (source == '') {
       fly.msg('发送webSocket信息不能为空')
+      return
     }
+    let message = {
+      source: source,
+      target: target,
+    }
+    wx.sendSocketMessage({
+      data: JSON.stringify(message)
+    })
+  },
+  /**
+  * 接收websocket推送
+  */
+  getWebSocketMessage: (self) => {
+    createWebSocket().then(() => {
+      wx.onSocketMessage(function (res) {
+        let data = JSON.parse(res.data)
+        console.log('接收到来自服务器的推送：', data)
+        self.setData({
+          source: data.message.source,
+          target: data.message.target,
+        })
+      })
+    })
+  },
+}
+module.exports = fly
+
+/**
+* 创建websocket实例
+*/
+function createWebSocket () {
+  return new Promise(resolve => {
     wx.connectSocket({
       url: CFG.wssurl,
-      method: "POST",
+      method: "GET",
       success: res => {
-        console.log(res)
+        console.log('创建ws实例成功', res)
       }
     })
     wx.onSocketOpen(function (res) {
       console.log('WebSocket连接已打开！')
-      wx.sendSocketMessage({
-        data: message
-      })
+      resolve(res)
     })
     wx.onSocketClose(function (res) {
       console.log('WebSocket 已关闭！')
@@ -127,38 +160,8 @@ const fly = {
     wx.onSocketError(function (res) {
       console.log('WebSocket连接打开失败，请检查！')
     })
-  },
-  /**
-  * 接收websocket推送
-  * @args {object} self 上下文
-  */
-  getWebSocketMessage: (self) => {
-    return new Promise(resolve => {
-      wx.connectSocket({
-        url: CFG.wssurl,
-        method: "POST",
-        success: res => {
-          console.log(res)
-        }
-      })
-      wx.onSocketMessage(function (res) {
-        console.log('收到服务器内容：' + res.data)
-        self.setData({
-          source: res.data,
-        })
-        resolve(res.data)
-      })
-      wx.onSocketClose(function (res) {
-        console.log('WebSocket 已关闭！')
-      })
-      wx.onSocketError(function (res) {
-        console.log('WebSocket连接打开失败，请检查！')
-      })
-    })
-  },
+  })
 }
-module.exports = fly
-
 
 /**
 * @desc 小程序请求封装

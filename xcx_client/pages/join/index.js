@@ -11,13 +11,11 @@ Page({
     lang: 1, // 默认翻译为中文 0中文  1英文
   },
   onReady: function () {
+    let self = this
     // wx.hideShareMenu()  // 隐藏分享
     getTalkHistory(this.data.meetKey, this) // 初始化页面获取谈话记录
     // 接收websocket推送
-    fly.getWebSocketMessage(this).then(res => { 
-      fly.msg('接收到来自服务器的推送：', res)
-      translate(res, this.data.lang, this) 
-    }) 
+    fly.getWebSocketMessage(this)
   },
   changeLang(e) {
     translate(this.data.source, e.detail.lang, this) 
@@ -93,8 +91,7 @@ function translate(content, lang, self) {
     content: content,
     success: function (res) {
       if (res.retcode == 0) {
-        console.log("result", res.result)
-        fly.msg("result", res.result)
+        fly.msg('翻译结果：', res.result)
         self.setData({
           target: res.result,
         })
