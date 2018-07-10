@@ -1,9 +1,19 @@
+/*
+ * @Author: wtniu 
+ * @Date: 2018-07-10 17:12:33 
+ * @des 插件方法
+ * 翻译： plugin.translate 合成： plugin.textToSpeech
+ * @des 语音识别管理器 
+ * 开始： manager.start 结束： manager.stop 
+ * 结束回调： manager.onStop 新内容返回： manager.onRecognize
+ */
 const app = getApp()
 const fly = app.fly
 
 const plugin = requirePlugin("WechatSI")
 // 获取**全局唯一**的语音识别管理器**recordRecoManager**
 const manager = plugin.getRecordRecognitionManager()
+const innerAudioContext = wx.createInnerAudioContext()
 
 Page({
   data: {
@@ -14,51 +24,80 @@ Page({
   onReady: function () {
     // 监听暂定识别事件
     manager.onStop = res => {
+      console.log('结束识别')
       let text = res.result
       this.setData({
         speechText: text
       })
-      this.translate(text)
+      translate(this, text).then(res => {
+        textToSpeech(res)
+      })
     }
-    //有新的识别内容返回，则会调用此事件
+    //有新的识别内容返回触发
     manager.onRecognize = (res) => {
       let text = res.result
-      console.log(text)
-      fly.msg('新的内容', text)
+      console.log('新的内容：', text)
+      this.setData({
+        speechText: text
+      })
+      translate(this, text).then(res => {
+        console.log(res)
+      })
     }
-    // 识别错误事件
-    manager.onError = err => {
-      console.log(err)
-    }
+    initManager()
   },
  // 开始语音识别
   startSpeech(e) {
-    manager.start({
-      lang: 'zh_CN',
-    })
-    
-    // 轮询识别
-    setInterval(() => {
-      fly.msg('重新识别')
-      manager.stop()
-    }, 3000);
-
-    this.setData({
-      speechBtnText: '正在识别'
-    })
+    start(this)  
   },
  // 结束语音识别
   endSpeech(e) {
-    manager.stop()
-    this.setData({
-      speechBtnText: '长按说话'
-    })
+    end(this)
   },
-  translate(text) {
-    if (text == ''){
-      fly.msg('内容不能为空')
-      return
-    }
+})
+
+// ------------------------------- 佛祖镇楼  BUG辟易 -------------------------------  
+/**
+* @desc 开始逻辑
+*/
+function start(self) {
+  manager.start({
+    lang: 'zh_CN',
+  })
+  self.setData({
+    speechBtnText: '正在识别'
+  })
+}
+
+/**
+* @desc 结束逻辑
+*/
+function end(self) {
+  manager.stop()
+  self.setData({
+    speechBtnText: '长按说话'
+  })
+}
+
+/**
+* @desc 初始化管理器
+*/
+function initManager() {
+  // 识别错误事件
+  manager.onError = err => {
+    console.log(err)
+  }
+}
+
+/**
+* @desc 翻译逻辑
+*/
+function translate(self, text) {
+  if (text == '') {
+    fly.msg('内容不能为空')
+    return
+  }
+  return new Promise(resolve => {
     plugin.translate({
       lfrom: "zh_CN",
       lto: "en_US",
@@ -66,10 +105,10 @@ Page({
       success: res => {
         if (res.retcode == 0) {
           console.log("翻译结果：", res.result)
-          this.setData({
+          self.setData({
             translateResult: res.result,
           })
-          textToSpeech(res.result)
+          resolve(res.result)
         } else {
           console.warn("翻译失败", res)
         }
@@ -78,14 +117,10 @@ Page({
         console.log("网络失败", res)
       }
     })
-  },
-  // 检测翻译内容
-  watchTranslateText(e) {
-    this.setData({
-      translateText: e.detail.value
-    })
-  },
-})
+  }).catch(err => {
+    console.log(err)
+  })
+}
 
 /**
 * @desc 合成
@@ -111,7 +146,6 @@ function textToSpeech(speechText) {
 * @desc 播放音频
 */
 function playAudio(src) {
-  const innerAudioContext = wx.createInnerAudioContext()
   innerAudioContext.autoplay = true
   innerAudioContext.src = src
   innerAudioContext.onPlay(() => {
@@ -120,8 +154,5 @@ function playAudio(src) {
   innerAudioContext.onError((res) => {
     console.log(res.errMsg)
     console.log(res.errCode)
-  })
-  manager.start({
-    lang: 'zh_CN',
   })
 }
