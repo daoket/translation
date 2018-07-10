@@ -1,5 +1,10 @@
-const fly = require('../../utils/wxUtil.js')
-let app = getApp()
+const app = getApp()
+const fly = app.fly
+const bus = app.bus
+
+// 引入
+const plugin = requirePlugin("WechatSI")
+var manager = wx.getBackgroundAudioManager()
 
 Page({
   data: {
@@ -8,6 +13,7 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   onReady() {
+
     // fly.getWebSocketMessage(this)
   },
   onLoad: function () {

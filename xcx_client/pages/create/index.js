@@ -1,10 +1,12 @@
-const fly = require('../../utils/wxUtil.js')
-
-let app = getApp();
+let app = getApp()
+let fly = app.fly
 
 Page({
   data: {
     meetName: ''
+  },
+  onReady() {
+    console.log(app)
   },
   changeLang(e) {
     if (e.detail.lang === '0') {  // 0中文  1英文

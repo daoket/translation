@@ -1,5 +1,6 @@
 {
   "pages":[
+    "pages/aaaaa/index",
     "pages/home/index",
     "pages/join/index",
     "pages/room/index",

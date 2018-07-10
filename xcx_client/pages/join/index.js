@@ -1,7 +1,7 @@
 // pages/join/index.js
 const plugin = requirePlugin("WechatSI")
-const fly = require('../../utils/wxUtil.js')
 let app = getApp()
+let fly = app.fly
 
 Page({
   data: {

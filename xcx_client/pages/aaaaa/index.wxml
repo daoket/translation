@@ -1,0 +1,9 @@
+<!-- 翻译 -->
+<view class='translate-box'>
+  <button bindtouchstart='startSpeech' bindtouchend='endSpeech' class='speechBtn'>{{speechBtnText}}</button>
+  <view>识别内容</view>
+  <view>{{speechText}}</view>
+  <view>翻译内容</view>
+  <view>{{translateResult}}</view>
+</view>
+

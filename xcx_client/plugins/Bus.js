@@ -1,7 +1,7 @@
 /* /plugins/pubsub.js
  * 一个简单的PubSub
  */
-export default class PubSub {
+class Bus {
   constructor() {
     this.PubSubCache = {
       $uid: 0
@@ -47,3 +47,5 @@ export default class PubSub {
     return !counter && (delete this.PubSubCache[type]);
   }
 }
+
+module.exports = Bus

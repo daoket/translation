@@ -196,7 +196,7 @@ Page({
       fail: function(resTrans) {
         console.warn("语音合成失败", resTrans, item)
       }
-  })
+    })
   },
 
   /**

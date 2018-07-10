@@ -13,14 +13,22 @@ const ws = require('./middleware/ws')
 middleware(app)
 router(app)
 
-mongoose.connect("mongodb://127.0.0.1:27017/face2face", error => {
-  if (error) {
-    console.log("数据库连接失败：" + error)
-  } else {
-    console.log("------数据库连接成功！------")
-    let server = app.listen(1234, () => {
-      console.log('Server is 🏃‍  at: http://127.0.0.1:%s', server.address().port);
-    });
-    ws(server) // 注册websocket
-  }
-});
+let debug = true
+if (debug) {
+  let server = app.listen(1234, () => {
+    console.log('Server is 🏃‍  at: http://127.0.0.1:%s', server.address().port);
+  });
+  ws(server) // 注册websocket
+} else {
+  mongoose.connect("mongodb://127.0.0.1:27017/face2face", error => {
+    if (error) {
+      console.log("数据库连接失败：" + error)
+    } else {
+      console.log("------数据库连接成功！------")
+      let server = app.listen(1234, () => {
+        console.log('Server is 🏃‍  at: http://127.0.0.1:%s', server.address().port);
+      });
+      ws(server) // 注册websocket
+    }
+  });
+}

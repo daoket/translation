@@ -1,0 +1,8 @@
+.translate-box view{
+  margin: 10px;
+}
+.speechBtn{
+  position: fixed;
+  bottom: 50px;
+  left: 100px; 
+}

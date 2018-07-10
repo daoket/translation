@@ -1,9 +1,14 @@
 //app.js
 const utils = require('./utils/util.js')
 const fly = require('./utils/wxUtil.js')
+const Bus = require('./plugins/Bus')
+const bus = new Bus()
+
 
 App({
   onLaunch: function () {
+    this.fly = fly
+    this.bus = bus
     wx.getStorage({
       key: 'history',
       success: (res) => {
